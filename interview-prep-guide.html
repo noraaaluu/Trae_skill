@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面试准备方案 - 产品经理实习生</title>
+<style>
+  :root {
+    --tech-blue: #2D7FF9;
+    --tech-blue-light: #4A90D9;
+    --cyan-start: #00C6FF;
+    --cyan-end: #0072FF;
+    --bg-primary: #F5F7FA;
+    --bg-card: rgba(255, 255, 255, 0.75);
+    --bg-solid: #FFFFFF;
+    --text-primary: #1A2332;
+    --text-secondary: #5A6A7F;
+    --text-muted: #8A99AB;
+    --border-light: rgba(45, 127, 249, 0.12);
+    --accent-green: #00BFA5;
+    --accent-orange: #FF8C42;
+    --accent-red: #FF5C5C;
+    --accent-purple: #7C5CFF;
+    --shadow-sm: 0 2px 8px rgba(45, 127, 249, 0.06);
+    --shadow-md: 0 4px 16px rgba(45, 127, 249, 0.08);
+    --shadow-lg: 0 8px 32px rgba(45, 127, 249, 0.12);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-primary);
+    background-image:
+      radial-gradient(ellipse at 0% 0%, rgba(0, 198, 255, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 20%, rgba(124, 92, 255, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(0, 114, 255, 0.05) 0%, transparent 50%);
+    color: var(--text-primary);
+    line-height: 1.75;
+    padding: 24px 20px;
+    max-width: 920px;
+    margin: 0 auto;
+    position: relative;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(45, 127, 249, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(45, 127, 249, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container { position: relative; z-index: 1; }
+  .header {
+    text-align: center;
+    padding: 48px 20px 32px;
+    margin-bottom: 24px;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--cyan-start), var(--cyan-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .header .subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+  }
+  .card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.3s ease;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 20px;
+  }
+  .card-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--tech-blue);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.15), rgba(0, 114, 255, 0.15));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  .toggle-arrow {
+    transition: transform 0.3s ease;
+    color: var(--text-muted);
+  }
+  .card.collapsed .toggle-arrow { transform: rotate(-90deg); }
+  .card.collapsed .card-body { display: none; }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 20px 0 12px;
+    padding-left: 12px;
+    border-left: 3px solid var(--tech-blue);
+  }
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 16px 0 10px;
+  }
+  p { margin-bottom: 12px; color: var(--text-primary); }
+  .muted { color: var(--text-muted); font-size: 13px; }
+  .highlight {
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.12), rgba(0, 114, 255, 0.12));
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: var(--tech-blue);
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 2px 4px 2px 0;
+  }
+  .tag-ok {
+    background: linear-gradient(135deg, rgba(0, 191, 165, 0.15), rgba(0, 191, 165, 0.08));
+    color: var(--accent-green);
+  }
+  .tag-gap {
+    background: linear-gradient(135deg, rgba(255, 140, 66, 0.15), rgba(255, 140, 66, 0.08));
+    color: var(--accent-orange);
+  }
+  .tag-warn {
+    background: linear-gradient(135deg, rgba(255, 92, 92, 0.15), rgba(255, 92, 92, 0.08));
+    color: var(--accent-red);
+  }
+  .tag-info {
+    background: linear-gradient(135deg, rgba(124, 92, 255, 0.15), rgba(124, 92, 255, 0.08));
+    color: var(--accent-purple);
+  }
+  .good {
+    background: linear-gradient(135deg, rgba(0, 191, 165, 0.08), rgba(0, 191, 165, 0.04));
+    border-left: 3px solid var(--accent-green);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: 10px 0;
+  }
+  .tip {
+    background: linear-gradient(135deg, rgba(45, 127, 249, 0.06), rgba(45, 127, 249, 0.03));
+    border-left: 3px solid var(--tech-blue);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: 10px 0;
+  }
+  .warn {
+    background: linear-gradient(135deg, rgba(255, 92, 92, 0.08), rgba(255, 92, 92, 0.04));
+    border-left: 3px solid var(--accent-red);
+    padding: 12px 16px;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: 10px 0;
+  }
+  .quote {
+    background: var(--bg-solid);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 12px 0;
+    position: relative;
+  }
+  .quote::before {
+    content: '"';
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    font-size: 32px;
+    color: var(--tech-blue);
+    opacity: 0.2;
+    font-family: Georgia, serif;
+  }
+  .quote p { padding-left: 20px; margin: 0; }
+  ul, ol { padding-left: 20px; margin: 10px 0; }
+  li { margin-bottom: 6px; }
+  .step {
+    background: var(--bg-solid);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 10px 16px;
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan-start), var(--cyan-end));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .score-point {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(0, 198, 255, 0.1), rgba(0, 114, 255, 0.1));
+    color: var(--tech-blue);
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 6px;
+  }
+  .qa-item {
+    background: var(--bg-solid);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+  .qa-question {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qa-question .num {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--tech-blue);
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+  }
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+    margin: 24px 0;
+  }
+  .mindmap {
+    background: var(--bg-solid);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    margin: 12px 0;
+  }
+  .mindmap-center {
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, var(--cyan-start), var(--cyan-end));
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    display: inline-block;
+    margin: 0 auto 16px;
+  }
+  .mindmap-branches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .mindmap-branch {
+    background: linear-gradient(135deg, rgba(45, 127, 249, 0.06), rgba(45, 127, 249, 0.03));
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+  }
+  .mindmap-branch strong {
+    color: var(--tech-blue);
+    font-size: 14px;
+  }
+  .mindmap-branch ul { margin-top: 6px; padding-left: 16px; font-size: 13px; color: var(--text-secondary); }
+  .cheat-sheet {
+    background: linear-gradient(135deg, rgba(45, 127, 249, 0.04), rgba(0, 198, 255, 0.04));
+    border: 2px dashed var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 12px 0;
+  }
+  .cheat-sheet h3 {
+    border: none;
+    padding: 0;
+    color: var(--tech-blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cheat-item {
+    background: var(--bg-solid);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    margin: 6px 0;
+    font-size: 14px;
+  }
+  .print-btn {
+    background: linear-gradient(135deg, var(--cyan-start), var(--cyan-end));
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: transform 0.2s;
+  }
+  .print-btn:hover { transform: translateY(-2px); }
+  .footer {
+    text-align: center;
+    padding: 32px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  @media print {
+    .card { break-inside: avoid; box-shadow: none; border: 1px solid #ddd; }
+    .print-btn { display: none; }
+    body { background: white; }
+  }
+  @media (max-width: 600px) {
+    body { padding: 16px 12px; }
+    .card { padding: 20px; border-radius: var(--radius-md); }
+    .header h1 { font-size: 24px; }
+    .mindmap-branches { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>🎯 面试准备方案</h1>
+  <p class="subtitle">岗位：产品经理实习生 · 候选人：某大学计算机专业大三 · 校园App项目经验</p>
+</div>
+
+<!-- 板块 1：自我介绍 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">👋</span> 1. 自我介绍</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <p class="muted">⏱ 时长：1.5-2分钟（约350字）</p>
+    <div class="quote">
+      <p>"面试官好！我叫XX，是XX大学计算机专业的大三学生。<br><br>
+      <span class="highlight">【重音】</span>虽然我是技术背景，但在校期间我做过两个校园App项目——一个是校园二手交易平台，从需求调研到产品上线全流程参与；另一个是课程表管理工具，目前已有2000+同学在使用。这些经历让我发现，比起写代码，我更享受<span class="highlight">【重音】</span>跟用户聊需求、做产品决策的过程。<br><br>
+      <span class="highlight">【重音】</span>我关注贵公司很久了，产品以用户体验著称，尤其是近期推出的XX功能，我觉得在行业内很有差异化。我希望能把做校园产品时积累的用户思维和数据意识，用到贵公司的产品上，做真正解决用户痛点的产品。<br><br>
+      以上就是我，期待能和您进一步交流。谢谢！"</p>
+    </div>
+    <h4>📌 结构拆解</h4>
+    <div class="step"><span class="step-num">1</span>我是谁：计算机专业大三，有两个校园App产品经验</div>
+    <div class="step"><span class="step-num">2</span>我有什么能力：全流程产品经验 + 用户思维 + 数据意识</div>
+    <div class="step"><span class="step-num">3</span>为什么投这个岗：认同公司产品理念，想把校园经验用到更大的平台</div>
+    <h4>🚫 不要说的</h4>
+    <ul>
+      <li>不要说"我还没想好要不要做产品"——态度要坚定</li>
+      <li>不要只罗列技术技能，重点放在产品思维上</li>
+      <li>不要说"我投了很多公司，都没回音"——显露出紧迫感</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 板块 2：JD 核心要求拆解 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">📋</span> 2. JD 核心要求拆解</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <h3>岗位职责</h3>
+    <h4>职责 1：协助进行用户调研，收集用户反馈与需求</h4>
+    <div class="good"><span class="tag tag-ok">已匹配</span> 两个校园App项目均做过用户访谈和问卷调查，累计访谈50+用户</div>
+    <h4>职责 2：竞品分析，跟踪行业动态</h4>
+    <div class="good"><span class="tag tag-ok">已匹配</span> 做课程表工具时分析过6款竞品，输出竞品对比表格</div>
+    <h4>职责 3：撰写需求文档，参与产品设计</h4>
+    <div class="good"><span class="tag tag-ok">已匹配</span> 熟悉Axure和Figma，独立输出过PRD和原型图</div>
+    <h4>职责 4：参与产品迭代，协调开发与设计</h4>
+    <div class="tip"><span class="tag tag-gap">需补位</span> 协调经验限于校园项目，未接触过专业团队协作</div>
+    <div class="tip">
+      <strong>应对策略：</strong>承认团队协作经验在学习中，但强调在校园项目中已跨专业（设计+开发）协作，有基础。入职后会主动学习公司的协作流程和工具（如Jira、飞书等）。
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h3>任职要求</h3>
+    <h4>要求 1：产品设计、计算机等相关专业本科及以上</h4>
+    <div class="good"><span class="tag tag-ok">完全匹配</span> 计算机专业本科，完全符合</div>
+    <h4>要求 2：有产品相关实习/项目经验优先</h4>
+    <div class="good"><span class="tag tag-ok">超出预期</span> 两个校园App全流程产品经验，用户规模2000+</div>
+    <h4>要求 3：熟悉Axure/Figma等原型设计工具</h4>
+    <div class="good"><span class="tag tag-ok">可证明</span> 熟练使用Axure和Figma，可展示作品集</div>
+    <h4>要求 4：良好的逻辑思维和沟通能力</h4>
+    <div class="good"><span class="tag tag-ok">面试体现</span> 通过面试对话自然展示，提前准备结构化回答</div>
+  </div>
+</div>
+
+<!-- 板块 3：简历深挖映射 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">📂</span> 3. 简历深挖映射</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <h3>🔗 项目经历 → JD 能力映射</h3>
+
+    <h4>项目 1：校园二手交易平台（产品负责人）</h4>
+    <div class="good"><strong>STAR 叙述框架：</strong></div>
+    <ul>
+      <li><strong>S（场景）：</strong>同学们二手物品交易分散在QQ群、朋友圈，信息不对称</li>
+      <li><strong>T（任务）：</strong>打造一个面向本校学生的二手交易平台 MVP</li>
+      <li><strong>A（行动）：</strong>
+        <ul>
+          <li>通过20份用户访谈梳理核心需求，输出用户画像和功能优先级</li>
+          <li>用Axure设计原型，经3轮用户测试后定稿</li>
+          <li>协调2名开发和1名设计同学完成上线</li>
+        </ul>
+      </li>
+      <li><strong>R（结果）：</strong>上线1个月内日活500+，交易完成率40%，用户满意度4.7/5</li>
+    </ul>
+    <div class="tip"><strong>💡 映射到产品岗：</strong>用户访谈能力 = 用户调研；功能优先级 = 需求分析；跨专业协作 = 项目协调；数据结果 = 效果衡量</div>
+    <div class="warn"><strong>⚠️ 潜在追问：</strong>"为什么不自己做技术？"→ 回答：发现产品决策比技术实现更能影响用户体验，技术背景让我能更好地和开发沟通。</div>
+
+    <h4>项目 2：智能课程表管理工具（独立产品）</h4>
+    <div class="good"><strong>STAR 叙述框架：</strong></div>
+    <ul>
+      <li><strong>S（场景）：</strong>大学生课程表工具要么功能单一要么太复杂，缺少个性化管理</li>
+      <li><strong>T（任务）：</strong>做一个轻量、智能的课程表工具，目标用户本校学生</li>
+      <li><strong>A（行动）：</strong>
+        <ul>
+          <li>分析6款竞品的功能矩阵和用户评论，找出3个未被满足的需求</li>
+          <li>独立完成全部产品设计和原型，用Figma做了高保真原型</li>
+          <li>和开发团队协作，迭代3个版本</li>
+        </ul>
+      </li>
+      <li><strong>R（结果）：</strong>上线3个月累计用户2000+，次日留存65%，收到50+条正向反馈</li>
+    </ul>
+    <div class="tip"><strong>💡 映射到产品岗：</strong>竞品分析能力 = 行业调研；独立产品 = 全链路思维；迭代3个版本 = 数据驱动优化</div>
+
+    <h3>🎯 简历亮点识别</h3>
+    <ul>
+      <li>🏆 <strong>全流程经验：</strong>两个项目均覆盖从0到1，这是应届生中少有的</li>
+      <li>📊 <strong>数据意识：</strong>关注日活、留存、交易完成率等核心指标</li>
+      <li>🤝 <strong>协作能力：</strong>跨专业（设计+开发+运营）协作经验</li>
+      <li>🎨 <strong>设计能力：</strong>熟悉Axure和Figma，能独立完成原型设计</li>
+    </ul>
+
+    <h3>🔍 预判追问</h3>
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q1</span> 两个项目最大的区别是什么？你学到了什么？</div>
+      <div class="good">
+        "最大的区别是一个是<strong>多人协作</strong>，一个是<strong>独立负责</strong>。二手平台让我学会怎么跟不同专业的同学沟通，理解各方的约束（比如开发说这个功能实现不了，我就要想替代方案）；课程表工具让我学会<strong>独立决策</strong>——没有人可以讨论，所有产品决策都要自己做，压力很大但成长也最快。两个项目都教会我：<span class='score-point'>1) 先验证需求再做功能 2) 小步快跑、快速迭代 3) 数据比感觉可靠</span>"
+      </div>
+    </div>
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q2</span> 为什么选择做产品而不是技术？</div>
+      <div class="good">
+        "说实话，我曾经以为自己会做技术。但做二手平台的时候，我发现跟用户聊需求、跟开发沟通方案、做产品决策这些环节，比写代码让我更有成就感。有一次我们改了推荐算法的逻辑，用户的交易完成率提升了8%——那种<em>'我做的决策直接影响了用户体验'</em>的感觉，是写代码时没有过的。而且我的技术背景反而是产品岗的优势——我能判断哪些需求技术上可行，哪些需要替代方案。"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 板块 4：专业能力检验问答 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">💡</span> 4. 专业能力检验问答</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <h3>🔴 通用必问</h3>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q1</span> 你对产品经理这个岗位的理解是什么？</div>
+      <div class="good">
+        "我理解产品经理就是<span class='score-point'>用户需求和业务目标之间的桥梁</span>——既要深入理解用户的真实痛点，又要把这些需求转化为可执行的产品方案，还要平衡技术可行性、业务价值和用户体验。用通俗的话说，就是<em>'用最小的成本，解决最多用户的最大问题'</em>。<br><br>
+        我觉得产品经理的核心能力有三个：<span class='score-point'>1) 需求洞察力</span>——能从用户的只言片语中发现真需求；<span class='score-point'>2) 优先级判断力</span>——知道什么该先做、什么该放弃；<span class='score-point'>3) 沟通协调力</span>——能说服设计、开发、运营等各方。"
+      </div>
+      <div class="muted">📎 得分点：用户思维 + 业务思维 + 自我认知</div>
+      <div class="muted">🔗 延伸追问："你觉得用户说的需求都是真需求吗？" / "怎么判断一个需求该不该做？"</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q2</span> 你平时用哪些产品方法论？</div>
+      <div class="good">
+        "我常用的几个：<span class='score-point'>1) Kano模型</span>——区分基本型、期望型、兴奋型需求，帮我做功能优先级排序；<span class='score-point'>2) AARRR漏斗</span>——从获客、激活、留存、收入、推荐五个环节分析产品；<span class='score-point'>3)  Jobs-to-be-Done</span>——从用户'要完成的任务'出发理解需求，比功能思维更深入。<br><br>
+        不过说实话，我不会刻意套用方法论。在校园项目中，我更多是<em>'先去跟用户聊，再回头看方法论'</em>——方法论是工具，不是答案，关键是解决问题。"
+      </div>
+      <div class="muted">📎 得分点：方法论认知 + 实战落地 + 务实态度</div>
+      <div class="muted">🔗 延伸追问："用Kano模型分析你项目里的一个功能" / "AARRR在你的项目里是怎么用的？"</div>
+    </div>
+
+    <h3>🟡 岗位定制必问（产品经理方向）</h3>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q3</span> 如果让你负责一个新功能，你的流程是怎样的？</div>
+      <div class="good">
+        "我的流程大概是这样的：<br>
+        <span class='score-point'>1) 需求验证：</span>先搞清楚需求从哪来——是用户反馈、数据分析、还是业务目标？然后通过用户访谈或数据分析验证需求的真实性。<br>
+        <span class='score-point'>2) 定义MVP：</span>确定最小可行产品，只做核心功能，避免过度设计。<br>
+        <span class='score-point'>3) 原型设计：</span>用Figma做原型，邀请3-5个目标用户做可用性测试。<br>
+        <span class='score-point'>4) PRD撰写：</span>明确功能描述、交互逻辑、数据埋点、成功指标。<br>
+        <span class='score-point'>5) 协作跟进：</span>和开发、设计、测试一起走查，排期、跟进进度。<br>
+        <span class='score-point'>6) 上线验证：</span>上线后关注数据表现，对比预期指标，决定是迭代还是调整方向。<br><br>
+        这个流程是我从两个校园项目中总结出来的，实际工作中肯定需要根据公司的流程调整。"
+      </div>
+      <div class="muted">📎 得分点：结构化思维 + 用户验证意识 + 数据驱动</div>
+      <div class="muted">🔗 延伸追问："如果MVP上线后数据不达预期怎么办？" / "怎么决定一个功能的优先级？"</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q4</span> 你最喜欢的一个产品是什么？为什么？</div>
+      <div class="good">
+        "我最喜欢的是<strong>Notion</strong>。原因有三个：<br>
+        <span class='score-point'>1) 极简的核心体验：</span>一个 block 模型撑起了所有功能，用户学一次就会用，这体现了'简单即强大'的设计哲学。<br>
+        <span class='score-point'>2) 可扩展性：</span>从个人笔记到团队协作，Notion通过模板和集成覆盖了几乎所有场景，这是产品架构设计的成功。<br>
+        <span class='score-point'>3) 用户即传播：</span>Notion的用户分享本身就是最好的营销，它的产品设计让用户有分享欲。<br><br>
+        我在做课程表工具时，从Notion身上学到的最重要的一点就是：<em>'好的产品不是功能多，而是核心功能足够好用'</em>。"
+      </div>
+      <div class="muted">📎 得分点：产品审美 + 分析能力 + 学习能力</div>
+    </div>
+
+    <h3>🟢 加分题</h3>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q5</span> 你对我们公司的产品有什么了解？</div>
+      <div class="good">
+        "我关注贵公司的产品有一段时间了。我觉得贵公司产品最大的特点是<span class='score-point'>'把复杂的事情做简单'</span>——无论是交互设计还是信息架构，都非常克制。尤其是XX功能，我认为在同类产品中是体验最好的。<br><br>
+        如果说有什么可以改进的地方，我注意到[具体功能]在[具体场景]下可能存在[具体问题]，这也是我如果加入后想探索的方向。"
+      </div>
+      <div class="warn">⚠️ 重要：面试前必须做好功课，准备具体的产品分析，不能泛泛而谈。</div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question"><span class="num">Q6</span> 你的职业规划是什么？</div>
+      <div class="good">
+        "短期（1年内）：<span class='score-point'>尽快熟悉公司的产品流程和业务，能独立负责一个小功能模块</span>；<br>
+        中期（2-3年）：<span class='score-point'>成为能独立负责一个产品线的产品经理，积累用户增长和商业化的经验</span>；<br>
+        长期（3-5年）：<span class='score-point'>希望能参与0到1的新产品孵化，做从发现机会到验证落地的全链路产品</span>。<br><br>
+        我觉得产品经理的成长路径是：执行者 → 独立负责模块 → 独立负责产品线 → 战略决策层。我现在的目标是做好前两步的积累。"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 板块 5：思维与经验 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">🧠</span> 5. 思维与经验</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <h3>场景拆解：如何做一个用户增长方案？</h3>
+    <div class="mindmap">
+      <div style="text-align:center;">
+        <span class="mindmap-center">用户增长方案</span>
+      </div>
+      <div class="mindmap-branches">
+        <div class="mindmap-branch">
+          <strong>🔍 现状诊断</strong>
+          <ul>
+            <li>当前用户规模和增长趋势</li>
+            <li>各渠道获客成本分析</li>
+            <li>用户流失率和原因</li>
+          </ul>
+        </div>
+        <div class="mindmap-branch">
+          <strong>👥 用户分层</strong>
+          <ul>
+            <li>新用户：激活和留存</li>
+            <li>活跃用户：提升粘性</li>
+            <li>沉睡用户：召回策略</li>
+          </ul>
+        </div>
+        <div class="mindmap-branch">
+          <strong>🎯 增长策略</strong>
+          <ul>
+            <li>渠道优化：提高ROI</li>
+            <li>产品优化：提升转化漏斗</li>
+            <li>裂变活动：用户推荐</li>
+          </ul>
+        </div>
+        <div class="mindmap-branch">
+          <strong>📊 数据监控</strong>
+          <ul>
+            <li>核心指标：DAU/MAU</li>
+            <li>过程指标：转化率</li>
+            <li>健康度：留存率</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h3>💡 通俗类比</h3>
+    <div class="tip">
+      做产品就像<strong>开餐厅</strong>：<br>
+      • 用户调研 = 了解客人想吃什么<br>
+      • 需求优先级 = 决定菜单先上什么菜<br>
+      • MVP = 先开试营业，看看客人反应<br>
+      • 迭代优化 = 根据反馈调整菜单和服务<br>
+      • 数据监控 = 看翻台率和回头客比例
+    </div>
+
+    <h3>🔄 跨领域能力迁移</h3>
+    <ul>
+      <li>💻 <strong>技术背景 → 产品优势：</strong>能判断技术可行性，和开发沟通更高效</li>
+      <li>🎨 <strong>设计思维 → 用户体验：</strong>用Figma做原型，对视觉和交互有敏感度</li>
+      <li>📊 <strong>数据意识 → 决策依据：</strong>用数据验证假设，而不是凭感觉做决策</li>
+      <li>🚀 <strong>创业心态 → 主动性：</strong>校园项目全流程经验，培养了主人翁意识</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 板块 6：情景模拟 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">🎬</span> 6. 情景模拟</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <div class="qa-item">
+      <div class="qa-question">情景 1：你上线的一个功能数据不达预期，怎么办？</div>
+      <div class="good">
+        <strong>答题框架：</strong><br>
+        <span class='score-point'>1) 先确认数据：</span>检查埋点是否正确，排除数据口径问题<br>
+        <span class='score-point'>2) 拆解漏斗：</span>看是哪个环节出了问题——曝光少？点击低？转化差？<br>
+        <span class='score-point'>3) 快速验证：</span>通过用户访谈或A/B测试定位原因<br>
+        <span class='score-point'>4) 小范围试错：</span>做一个小改动测试，看数据是否改善<br>
+        <span class='score-point'>5) 决定方向：</span>如果改善明显就全量推广，否则回滚并调整方案<br><br>
+        <strong>参考话术：</strong>"这种情况我在课程表项目里遇到过——上线初期打开率只有15%。我的处理思路是：首先排查数据埋点有没有问题，确认数据准确后，我把漏斗拆成了「推送触达→点击通知→进入页面→使用功能」四步，发现是<em>'点击通知'</em>这一步转化率特别低。然后我找了5个用户做访谈，发现是通知文案太模糊。我做了两个版本的A/B测试，把点击率从8%提到了22%，最终打开率也回升到了35%。我的经验是：<span class='score-point'>遇到数据问题不要慌，先拆解再验证，小步快跑</span>。"
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">情景 2：开发说你的需求实现不了，怎么办？</div>
+      <div class="good">
+        <strong>答题框架：</strong><br>
+        <span class='score-point'>1) 理解约束：</span>先问清楚是技术难点、时间问题还是资源限制<br>
+        <span class='score-point'>2) 寻找替代：</span>提出简化方案或替代路径<br>
+        <span class='score-point'>3) 沟通对齐：</span>和开发讨论，找到双方都能接受的方案<br>
+        <span class='score-point'>4) 同步预期：</span>和业务方/用户同步调整后的方案和时间<br><br>
+        <strong>参考话术：</strong>"在二手平台项目中，我想做一个智能推荐功能，但开发说算法复杂度太高，校园项目的资源做不了。我的第一反应不是争辩，而是<em>'那能不能做一个简化版本？'</em>——最后我们用了一个基于用户标签的简单推荐逻辑，虽然不如算法推荐精准，但对校园场景来说已经够用了。核心思路是：<span class='score-point'>先理解约束，再找替代方案，不要在一个方案上死磕</span>。毕竟产品的核心是解决问题，而不是实现某个具体功能。"
+      </div>
+    </div>
+
+    <div class="qa-item">
+      <div class="qa-question">情景 3：同时有三个需求要做，优先级怎么排？</div>
+      <div class="good">
+        <strong>答题框架：</strong><br>
+        <span class='score-point'>1) 评估影响：</span>每个需求影响多少用户？业务价值多大？<br>
+        <span class='score-point'>2) 评估成本：</span>每个需求的开发成本？有没有技术风险？<br>
+        <span class='score-point'>3) 矩阵排序：</span>用影响×成本矩阵做排序<br>
+        <span class='score-point'>4) 沟通对齐：</span>和相关方沟通排序结果，解释决策逻辑<br><br>
+        <strong>参考话术：</strong>"我通常用<span class='score-point'>影响×成本矩阵</span>来排序——影响大、成本低的优先做，影响大、成本高的看能不能拆分MVP，影响小的可以排后面或放弃。比如在校园项目中，我曾同时面临三个需求：优化搜索（影响大、成本中等）、添加收藏功能（影响中等、成本低）、做用户等级系统（影响小、成本高）。我的排序是：<em>搜索优化 → 收藏功能 → 等级系统暂缓</em>。理由是搜索是核心路径，影响面最大；收藏成本低且能提升粘性；等级系统虽然好玩，但对产品核心价值帮助不大，可以暂缓。"
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 板块 7：反问环节 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">💬</span> 7. 反问环节</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <h3>✅ 可以问的问题（3-5个）</h3>
+    <div class="good">
+      <strong>1. 关于业务挑战：</strong>"能请您介绍一下，贵公司产品目前面临的最大挑战是什么？产品团队是怎么应对的？"<br><br>
+      <strong>2. 关于团队期待：</strong>"对于产品经理实习生这个岗位，您觉得最关键的成功要素是什么？"<br><br>
+      <strong>3. 关于成长路径：</strong>"从产品实习生到正式产品经理，贵公司的成长路径是怎样的？我可以预期参与哪些类型的工作？"<br><br>
+      <strong>4. 关于技术/业务趋势：</strong>"您觉得未来一年，这个行业最值得关注的趋势是什么？贵公司在这方面有什么布局？"
+    </div>
+    <h3>❌ 不要问的问题</h3>
+    <div class="warn">
+      • 不要问薪资、加班等基础问题（HR会说）<br>
+      • 不要问"这个岗位还有多少候选人"（暴露焦虑）<br>
+      • 不要问"贵公司的产品和XX比有什么优势"（显得没做功课）<br>
+      • 不要说"我没有问题了"（显得缺乏热情）
+    </div>
+  </div>
+</div>
+
+<!-- 板块 8：面试备忘单 -->
+<div class="card">
+  <div class="card-header" onclick="this.parentElement.classList.toggle('collapsed')">
+    <h2><span class="icon">📝</span> 8. 面试备忘单</h2>
+    <span class="toggle-arrow">▼</span>
+  </div>
+  <div class="card-body">
+    <div class="cheat-sheet">
+      <h3>🔥 今晚必做</h3>
+      <div class="cheat-item">1. 把自我介绍练3遍，控制在2分钟内</div>
+      <div class="cheat-item">2. 复盘两个项目的STAR叙述，各练2遍</div>
+      <div class="cheat-item">3. 准备1个对公司产品的深度分析</div>
+      <div class="cheat-item">4. 把"产品经理理解"的回答背下来</div>
+      <div class="cheat-item">5. 准备3个反问问题</div>
+    </div>
+
+    <div class="cheat-sheet">
+      <h3>📌 关键词速记</h3>
+      <div class="cheat-item">• 核心方法论：Kano模型、AARRR、Jobs-to-be-Done</div>
+      <div class="cheat-item">• 核心流程：需求验证 → MVP → 原型测试 → PRD → 协作 → 数据验证</div>
+      <div class="cheat-item">• 核心指标：DAU、留存率、转化率、NPS</div>
+      <div class="cheat-item">• 设计工具：Axure、Figma</div>
+      <div class="cheat-item">• 效率工具：Jira、飞书、Notion</div>
+    </div>
+
+    <div class="cheat-sheet">
+      <h3>🗯️ 话术骨架</h3>
+      <div class="cheat-item"><strong>自我介绍：</strong>我是谁 → 我的产品经验 → 我为什么适合这个岗</div>
+      <div class="cheat-item"><strong>项目介绍：</strong>背景 → 我的任务 → 我的行动 → 结果数据</div>
+      <div class="cheat-item"><strong>产品理解：</strong>用户需求与业务目标的桥梁 → 核心能力3点 → 方法论</div>
+      <div class="cheat-item"><strong>问题处理：</strong>确认 → 拆解 → 验证 → 试错 → 决策</div>
+    </div>
+
+    <div class="cheat-sheet">
+      <h3>🆘 临场应急</h3>
+      <div class="cheat-item"><strong>卡壳了：</strong>"这个问题很有意思，让我想想……"（给自己3秒组织语言）</div>
+      <div class="cheat-item"><strong>不会的问题：</strong>"这个我确实了解有限，但我的思路是……"（诚实+展示思考能力）</div>
+      <div class="cheat-item"><strong>被追问慌了：</strong>"好问题，我之前没从这个角度想过，不过我可以试试……"（承认+尝试）</div>
+      <div class="cheat-item"><strong>时间到了没答完：</strong>"简单总结一下我的核心观点：1)…2)…3)…"（结构化收尾）</div>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ 打印备忘单</button>
+  </div>
+</div>
+
+<div class="footer">
+  <p>✨ 祝你面试顺利，offer多多！</p>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.card-header').forEach(header => {
+  header.addEventListener('click', function() {
+    this.parentElement.classList.toggle('collapsed');
+  });
+});
+</script>
+</body>
+</html>

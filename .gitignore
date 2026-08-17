@@ -1,0 +1,9 @@
+# 面试准备 Skill - 生成文件隐私保护
+# 用户自己生成的面试准备方案（包含个人JD和简历信息）不应上传到公开仓库
+# 建议用户将个人生成文件重命名后加入 .gitignore，例如：
+# my-interview-prep.html
+# interview-prep-private.html
+
+# 分享包包含个人数据，禁止上传
+.trae-html-share-packages/
+*.zip
