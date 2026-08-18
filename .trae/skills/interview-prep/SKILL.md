@@ -105,15 +105,144 @@ description: "根据JD和简历生成完整的面试准备HTML方案。当用户
 - 将 past experience 的技能迁移到 target role（如审核经验 → 质量把控 → 投放素材优化）
 - 根据目标公司的业务特点调整内容
 
-### HTML 样式
-- 单文件 HTML，内嵌 CSS 和 JS
-- **科技清新风格**：浅色背景（#F5F7FA 或 #FFFFFF），科技蓝主色调（#4A90D9 / #2D7FF9），辅以青色渐变（#00C6FF → #0072FF）
-- 视觉特征：毛玻璃质感卡片（backdrop-filter）、微渐变背景光晕、细线分割、圆角设计（12-16px）、柔和阴影
-- 字体：系统无衬线字体，标题用科技蓝，正文深灰（#333）
-- 支持折叠/展开各板块
-- 备忘单支持打印/导出
-- 移动端适配
-- 背景可加 subtle 网格线或几何装饰元素营造科技感
+### HTML 样式（科技清新风格 Tech Fresh）
+
+整体风格定位：**浅色背景 + 科技蓝主色 + 青色渐变 + 毛玻璃质感**，营造现代、干净、专业的视觉体验。
+
+#### CSS 变量定义
+```css
+:root {
+  /* 主色调 */
+  --tech-blue: #2D7FF9;           /* 主标题、强调色 */
+  --tech-blue-light: #4A90D9;      /* 次级标题、链接 */
+  --cyan-start: #00C6FF;           /* 渐变起点 */
+  --cyan-end: #0072FF;             /* 渐变终点 */
+
+  /* 背景色 */
+  --bg-primary: #F5F7FA;           /* 页面主背景 */
+  --bg-card: rgba(255, 255, 255, 0.75);  /* 卡片背景（半透明，配合毛玻璃） */
+  --bg-solid: #FFFFFF;             /* 实心背景（表格等） */
+
+  /* 文字色 */
+  --text-primary: #1A2332;         /* 正文主色 */
+  --text-secondary: #5A6A7F;       /* 次要文字 */
+  --text-muted: #8A99AB;           /* 辅助说明 */
+  --text-accent: #2D7FF9;          /* 强调文字 */
+
+  /* 边框与分割 */
+  --border-light: rgba(45, 127, 249, 0.12);  /* 卡片边框 */
+  --border-divider: rgba(0, 0, 0, 0.06);     /* 分割线 */
+
+  /* 状态色 */
+  --accent-green: #00BFA5;         /* 已匹配 */
+  --accent-orange: #FF9800;        /* 需补位 */
+  --accent-red: #FF5252;           /* 不要说/禁忌 */
+
+  /* 阴影 */
+  --shadow-card: 0 2px 12px rgba(45, 127, 249, 0.08);
+  --shadow-hover: 0 4px 20px rgba(45, 127, 249, 0.15);
+}
+```
+
+#### 视觉组件规范
+
+**1. 页面背景**
+- 主背景色 `#F5F7FA`，叠加 subtle 网格线（`linear-gradient` 重复背景，线条 `rgba(45,127,249,0.03)`）
+- 顶部和底部各加一个微渐变光晕（`radial-gradient`，青蓝色，半径 600px，透明度 0.06-0.10）
+
+**2. 卡片样式（核心容器）**
+```css
+.card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-hover);
+}
+```
+
+**3. 标题样式**
+- H1（页面主标题）：渐变文字（`background: linear-gradient(135deg, #00C6FF, #0072FF); -webkit-background-clip: text`），字号 28px，加粗
+- H2（板块标题）：科技蓝 `#2D7FF9`，字号 22px，左侧 4px 渐变竖线装饰（`border-left: 4px solid; border-image: linear-gradient(#00C6FF, #0072FF) 1`）
+- H3/H4：`#4A90D9`，字号 16-18px
+
+**4. 标签/徽章**
+```css
+.tag {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.tag-ok {      /* 已匹配 */
+  background: linear-gradient(135deg, #00BFA5, #00C6FF);
+  color: #FFFFFF;
+}
+.tag-gap {     /* 需补位 */
+  background: linear-gradient(135deg, #FF9800, #FFC107);
+  color: #FFFFFF;
+}
+.tag-no {      /* 不要说 */
+  background: linear-gradient(135deg, #FF5252, #FF9800);
+  color: #FFFFFF;
+}
+```
+
+**5. 引用框/话术框**
+```css
+.quote-box {
+  background: rgba(0, 198, 255, 0.05);
+  border-left: 3px solid var(--tech-blue);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 20px;
+  position: relative;
+}
+.quote-box::before {  /* 右上角引号装饰 */
+  content: '"';
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  font-size: 40px;
+  color: rgba(45, 127, 249, 0.15);
+}
+```
+
+**6. 步骤/流程指示器**
+- 圆形数字徽章：`background: linear-gradient(135deg, #00C6FF, #0072FF); color: white; border-radius: 50%; width: 28px; height: 28px;`
+
+**7. 折叠/展开交互**
+- 默认折叠，点击展开（`<details>` + JS 增强）
+- 展开时卡片底部渐显动画（`transition: max-height 0.4s ease`）
+- 折叠按钮用科技蓝箭头图标
+
+**8. 表格样式**
+- 表头：`background: rgba(45, 127, 249, 0.06); color: var(--tech-blue)`
+- 行分隔：`border-bottom: 1px solid var(--border-divider)`
+- 圆角表格容器，溢出隐藏
+
+**9. 备忘单特殊样式**
+- 背景用更深的卡片色 `rgba(255,255,255,0.95)`，突出重要性
+- 关键词用高亮标记：`background: linear-gradient(180deg, transparent 60%, rgba(0,198,255,0.25) 60%)`
+- 打印样式：`@media print { body: white bg, cards: white bg no shadow, expand all }`
+
+#### 响应式规范
+- 桌面端：卡片最大宽度 860px，居中
+- 平板：卡片宽度 100%，padding 缩减至 20px 24px
+- 移动端（<600px）：标题字号缩减（H1→22px, H2→18px），卡片 padding 16px，标签换行
+- 移动端背景光晕隐藏，减少视觉干扰
+
+#### 字体规范
+- `font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif`
+- 行高：正文 1.8，标题 1.4
+- 字号：正文 15px，标题 18-28px，辅助说明 13px
 
 ### 质量检查
 生成后必须检查：
