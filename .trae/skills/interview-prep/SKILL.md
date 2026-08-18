@@ -22,6 +22,8 @@ description: "根据JD和简历生成完整的面试准备HTML方案。当用户
 
 生成一个单文件 HTML：`interview-prep-guide.html`
 
+> ⚠️ 生成的面试方案包含个人信息，请勿上传公开仓库。已通过 `.gitignore` 自动排除分享包与 zip 文件。
+
 ## 准备方案结构（必须包含以下所有板块）
 
 ### 板块 1：自我介绍
